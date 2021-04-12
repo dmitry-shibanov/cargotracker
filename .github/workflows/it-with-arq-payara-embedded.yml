@@ -1,16 +1,7 @@
 name: it-with-arq-payara-embedded
 
-on:
-  push:
-    paths-ignore:
-      - "docs/**"
-    branches:
-      - master
-  pull_request:
-    types:
-      - opened
-      - synchronize
-      - reopened
+on: [push, pull_request]
+
 
 jobs:
   it-with-arq-payara-embedded:
@@ -28,12 +19,12 @@ jobs:
           docker-compose up -d postgres
           docker ps -a
           
-      - name: Cache Maven packages
-        uses: actions/cache@v2.1.4
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
+#       - name: Cache Maven packages
+#         uses: actions/cache@v2.1.4
+#         with:
+#           path: ~/.m2
+#           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+#           restore-keys: ${{ runner.os }}-m2
 
       - name: Run integration test with -Parq-payara-embedded
         run: mvn clean verify -Parq-payara-embedded
